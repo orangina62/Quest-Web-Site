@@ -34,7 +34,7 @@ db.serialize(() => {
 });
 
 // Récupérer toutes les missions
-app.get('/missions', (req, res) => {
+app.get('/api/missions', (req, res) => {
     console.log('Requête reçue pour récupérer les missions.');
     db.all('SELECT * FROM missions', [], (err, rows) => {
         if (err) {
@@ -47,7 +47,7 @@ app.get('/missions', (req, res) => {
 });
 
 // Ajouter une nouvelle mission
-app.post('/missions', (req, res) => {
+app.post('/api/missions', (req, res) => {
     console.log('Requête POST reçue pour ajouter une mission:', req.body);
     const { name, person, objective } = req.body;
 
