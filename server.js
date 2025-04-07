@@ -7,9 +7,11 @@ const db = new sqlite3.Database('./missions.db');
 
 // Middleware
 app.use(express.json());
+
+// Configurez CORS pour autoriser votre domaine Vercel
 app.use(cors({
-    origin: '*', // Autorise toutes les origines
-    methods: ['GET', 'POST'], // Autorise uniquement les méthodes GET et POST
+    origin: 'https://the-quest-board.vercel.app', // Remplacez par l'URL de votre frontend
+    methods: ['GET', 'POST'], // Autorisez uniquement les méthodes nécessaires
     allowedHeaders: ['Content-Type']
 }));
 

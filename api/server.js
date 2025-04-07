@@ -7,7 +7,13 @@ const db = new sqlite3.Database('./api/missions.db'); // Assurez-vous que le che
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+// Configurez CORS pour autoriser votre domaine Vercel
+app.use(cors({
+    origin: 'https://the-quest-board.vercel.app', // Remplacez par l'URL de votre frontend
+    methods: ['GET', 'POST'], // Autorisez uniquement les méthodes nécessaires
+    allowedHeaders: ['Content-Type']
+}));
 
 // Créer la table des missions si elle n'existe pas
 db.serialize(() => {
