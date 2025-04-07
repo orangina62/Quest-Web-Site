@@ -24,7 +24,9 @@
     "micromatch": "^4.0.8",
     "open": "^10.1.0",
     "rimraf": "^6.0.1",
-    "pg": "^8.10.0"
+    "pg": "^8.10.0",
+    "@vercel/blob": "^1.0.0",
+    "@vercel/edge-config": "^1.7.0"
   },
   "devDependencies": {
     "live-server": "^1.2.0"
