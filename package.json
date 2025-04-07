@@ -6,8 +6,8 @@
   "scripts": {
     "start": "live-server public",
     "build": "echo 'Build step can be added here'",
-    "deploy": "git add . && git commit -m \"Auto update\" && git push origin main",
-    "watch": "nodemon --watch . --exec \"git add . && git commit -m 'Auto-save commit' && git push origin main\""
+    "deploy": "git add . && git commit -m \"Auto-save commit\" && git push origin main",
+    "watch": "nodemon --watch . --exec \"deploy.bat\""
   },
   "keywords": [
     "vercel",
