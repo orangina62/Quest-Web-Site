@@ -1,1 +1,12 @@
 /* No changes were made to the style.css file. */
+
+#missionList .card {
+    width: 18rem;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#missionList .card:hover {
+    transform: scale(1.05);
+}
