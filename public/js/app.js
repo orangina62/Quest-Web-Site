@@ -69,12 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // Exemple de données de missions (à remplacer par des données dynamiques si nécessaire)
-    const missions = [
-        { name: "Mission Alpha", person: "Alice", objective: "Explorer la zone A" },
-        { name: "Mission Beta", person: "Bob", objective: "Collecter des échantillons" },
-    ];
-
     // Fonction pour afficher les missions sous forme de cartes
     function displayMissions() {
         missionList.innerHTML = ""; // Réinitialiser la liste
@@ -92,13 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h5 class="card-title">${mission.name}</h5>
             </div>
         `;
-        card.addEventListener("click", () => showMissionDetails(index));
+        card.addEventListener("click", () => showMissionDetails(mission));
         missionList.appendChild(card);
     }
 
     // Fonction pour afficher les détails d'une mission dans la modale
-    function showMissionDetails(index) {
-        const mission = missions[index];
+    function showMissionDetails(mission) {
         document.getElementById("detailMissionName").textContent = mission.name;
         document.getElementById("detailMissionPerson").textContent = mission.person;
         document.getElementById("detailMissionObjective").textContent = mission.objective;
