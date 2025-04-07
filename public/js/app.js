@@ -95,7 +95,42 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("detailMissionName").textContent = mission.name;
         document.getElementById("detailMissionPerson").textContent = mission.person;
         document.getElementById("detailMissionObjective").textContent = mission.objective;
+
+        // Ajouter les actions pour les boutons
+        const completeButton = document.getElementById("completeMissionButton");
+        const deleteButton = document.getElementById("deleteMissionButton");
+
+        completeButton.onclick = () => {
+            alert(`Mission "${mission.name}" marquée comme accomplie !`);
+            $("#missionDetailsModal").modal("hide");
+        };
+
+        deleteButton.onclick = () => {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer la mission "${mission.name}" ?`)) {
+                deleteMission(mission);
+                $("#missionDetailsModal").modal("hide");
+            }
+        };
+
         $("#missionDetailsModal").modal("show");
+    }
+
+    // Fonction pour supprimer une mission
+    function deleteMission(mission) {
+        fetch(`${API_BASE_URL}/missions/${mission.id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                console.log(`Mission "${mission.name}" supprimée avec succès.`);
+                loadMissions(); // Recharger les missions après suppression
+            })
+            .catch(error => {
+                console.error('Erreur lors de la suppression de la mission:', error);
+                alert(`Impossible de supprimer la mission : ${error.message}`);
+            });
     }
 
     // S'assurer que les missions sont affichées après le chargement de la page
