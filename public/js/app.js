@@ -1,6 +1,9 @@
 // URL de l'API pour le mode production sur Vercel
 const API_BASE_URL = 'https://the-quest-board.vercel.app/api'; // Assurez-vous que cette URL correspond à votre backend déployé
 
+// Déclaration de la variable missions comme tableau global
+let missions = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     const newMissionForm = document.getElementById('newMissionForm');
     const missionList = document.getElementById('missionList');
@@ -15,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return response.json();
             })
-            .then(missions => {
+            .then(data => {
+                missions = Array.isArray(data) ? data : []; // S'assurer que missions est un tableau
                 missionList.innerHTML = ''; // Réinitialise la liste
                 missions.forEach((mission, index) => {
                     createMissionCard(mission, index);
@@ -54,9 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return response.json();
             })
-            .then(() => {
+            .then(newMission => {
                 console.log('Mission ajoutée avec succès.');
-                const newMission = { name: missionName, person: missionPerson, objective: missionObjective };
                 missions.push(newMission); // Ajouter la mission au tableau
                 createMissionCard(newMission, missions.length - 1); // Créer une carte pour la nouvelle mission
                 newMissionForm.reset();
