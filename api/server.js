@@ -1,9 +1,9 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3'); // Remplace sqlite3 par better-sqlite3
 const cors = require('cors');
 
 const app = express();
-const db = new sqlite3.Database('./api/missions.db'); // Assurez-vous que le chemin est correct
+const db = new Database('./api/missions.db'); // Assurez-vous que le chemin est correct
 
 // Middleware
 app.use(express.json());
@@ -16,48 +16,44 @@ app.use(cors({
 }));
 
 // Créer la table des missions si elle n'existe pas
-db.serialize(() => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS missions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            person TEXT NOT NULL,
-            objective TEXT NOT NULL
-        )
-    `);
-});
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS missions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        person TEXT NOT NULL,
+        objective TEXT NOT NULL
+    )
+`).run();
 
 // Récupérer toutes les missions
 app.get('/api/missions', (req, res) => {
-    db.all('SELECT * FROM missions', [], (err, rows) => {
-        if (err) {
-            console.error('Erreur lors de la récupération des missions:', err.message);
-            res.status(500).json({ error: 'Erreur interne du serveur' });
-            return;
-        }
+    try {
+        const rows = db.prepare('SELECT * FROM missions').all();
         res.json(rows);
-    });
+    } catch (err) {
+        console.error('Erreur lors de la récupération des missions:', err.message);
+        res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
 });
 
 // Ajouter une nouvelle mission
 app.post('/api/missions', (req, res) => {
     const { name, person, objective } = req.body;
+
     if (!name || !person || !objective) {
         res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
         return;
     }
-    db.run(
-        'INSERT INTO missions (name, person, objective) VALUES (?, ?, ?)',
-        [name, person, objective],
-        function (err) {
-            if (err) {
-                console.error('Erreur lors de l\'ajout de la mission:', err.message);
-                res.status(500).json({ error: 'Erreur interne du serveur' });
-                return;
-            }
-            res.json({ id: this.lastID });
-        }
-    );
+
+    try {
+        const result = db.prepare(
+            'INSERT INTO missions (name, person, objective) VALUES (?, ?, ?)'
+        ).run(name, person, objective);
+        res.json({ id: result.lastInsertRowid });
+    } catch (err) {
+        console.error('Erreur lors de l\'ajout de la mission:', err.message);
+        res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
 });
 
 // Exporter l'application pour Vercel
