@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const deleteButton = document.getElementById("deleteMissionButton");
 
         completeButton.onclick = () => {
-            alert(`Mission "${mission.name}" marquée comme accomplie !`);
+            markMissionAsCompleted(mission);
             $("#missionDetailsModal").modal("hide");
         };
 
@@ -116,6 +116,25 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         $("#missionDetailsModal").modal("show");
+    }
+
+    // Fonction pour marquer une mission comme accomplie
+    function markMissionAsCompleted(mission) {
+        fetch(`${API_BASE_URL}/missions/${mission.id}/complete`, {
+            method: 'PATCH', // Utilisation de PATCH pour mettre à jour l'état de la mission
+            headers: { 'Content-Type': 'application/json' },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                console.log(`Mission "${mission.name}" marquée comme accomplie.`);
+                loadMissions(); // Recharger les missions après mise à jour
+            })
+            .catch(error => {
+                console.error('Erreur lors de la mise à jour de la mission:', error);
+                alert(`Impossible de marquer la mission comme accomplie : ${error.message}`);
+            });
     }
 
     // Fonction pour supprimer une mission
