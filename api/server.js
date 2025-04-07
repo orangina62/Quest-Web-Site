@@ -29,6 +29,10 @@ db.serialize(() => {
 
 // Récupérer toutes les missions
 app.get('/api/missions', (req, res) => {
+    res.json({ message: 'Liste des missions' }); // Exemple de réponse pour tester
+});
+
+app.get('/api/missions', (req, res) => {
     db.all('SELECT * FROM missions', [], (err, rows) => {
         if (err) {
             res.status(500).json({ error: err.message });
@@ -39,6 +43,10 @@ app.get('/api/missions', (req, res) => {
 });
 
 // Ajouter une nouvelle mission
+app.post('/api/missions', (req, res) => {
+    res.json({ message: 'Mission ajoutée' }); // Exemple de réponse pour tester
+});
+
 app.post('/api/missions', (req, res) => {
     console.log('Données reçues pour ajout:', req.body); // Log des données reçues
     const { name, person, objective } = req.body;
