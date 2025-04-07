@@ -29,13 +29,10 @@ db.serialize(() => {
 
 // Récupérer toutes les missions
 app.get('/api/missions', (req, res) => {
-    res.json({ message: 'Liste des missions' }); // Exemple de réponse pour tester
-});
-
-app.get('/api/missions', (req, res) => {
     db.all('SELECT * FROM missions', [], (err, rows) => {
         if (err) {
-            res.status(500).json({ error: err.message });
+            console.error('Erreur lors de la récupération des missions:', err.message);
+            res.status(500).json({ error: 'Erreur interne du serveur' });
             return;
         }
         res.json(rows);
@@ -44,30 +41,20 @@ app.get('/api/missions', (req, res) => {
 
 // Ajouter une nouvelle mission
 app.post('/api/missions', (req, res) => {
-    res.json({ message: 'Mission ajoutée' }); // Exemple de réponse pour tester
-});
-
-app.post('/api/missions', (req, res) => {
-    console.log('Données reçues pour ajout:', req.body); // Log des données reçues
     const { name, person, objective } = req.body;
-
-    // Vérifiez que les données sont valides
     if (!name || !person || !objective) {
-        console.error('Données invalides:', req.body);
         res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
         return;
     }
-
     db.run(
         'INSERT INTO missions (name, person, objective) VALUES (?, ?, ?)',
         [name, person, objective],
         function (err) {
             if (err) {
                 console.error('Erreur lors de l\'ajout de la mission:', err.message);
-                res.status(500).json({ error: err.message });
+                res.status(500).json({ error: 'Erreur interne du serveur' });
                 return;
             }
-            console.log('Mission ajoutée avec succès, ID:', this.lastID);
             res.json({ id: this.lastID });
         }
     );
