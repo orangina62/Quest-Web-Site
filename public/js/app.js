@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $("#missionDetailsModal").modal("show");
     }
 
-    // Initialiser l'affichage des missions
+    // S'assurer que les missions sont affichées après le chargement de la page
     displayMissions();
 
     // Charger les missions au démarrage
