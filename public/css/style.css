@@ -1,23 +1,57 @@
-/* No changes were made to the style.css file. */
+/* Style général */
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
 
-#missionList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: start;
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+button {
+    transition: background-color 0.3s, transform 0.2s;
+    border-radius: 5px;
+}
+
+button:hover {
+    transform: scale(1.05);
 }
 
 /* Style des cartes de mission */
+#missionList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
 #missionList .card {
-    width: 250px;
-    margin: 15px;
-    padding: 10px;
+    width: 280px;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    background-color: #f8f9fa;
+    overflow: hidden;
 }
 
 #missionList .card:hover {
@@ -25,14 +59,19 @@
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-#missionList .card .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
+#missionList .card .card-body {
+    padding: 20px;
     text-align: center;
 }
 
-/* Style pour le menu d'affichage des détails de la mission */
+#missionList .card .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* Style de la modale */
 #missionDetailsModal .modal-content {
     background-color: #ffffff;
     border-radius: 10px;
@@ -46,7 +85,7 @@
 }
 
 #missionDetailsModal .modal-title {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
     color: #333;
 }
@@ -65,28 +104,58 @@
     margin-right: 10px;
 }
 
-/* Style général */
-body {
-    font-family: 'Ubuntu', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+/* Style du formulaire */
+form {
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-header h1 {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 2.5rem;
-    color: #007bff;
+form .form-group {
+    margin-bottom: 15px;
 }
 
-main {
-    padding: 20px;
+form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
 }
 
-button {
-    transition: background-color 0.3s, transform 0.2s;
+form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-button:hover {
-    transform: scale(1.05);
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Barre de chargement */
+.loading-box {
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.loading-box .progress {
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #e9ecef;
+}
+
+.loading-box .progress-bar {
+    background-color: #007bff;
 }
