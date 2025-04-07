@@ -17,10 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(missions => {
                 missionList.innerHTML = ''; // Réinitialise la liste
-                missions.forEach(mission => {
-                    const missionItem = document.createElement('li');
-                    missionItem.textContent = `Mission: ${mission.name}, Personne: ${mission.person}, Objectif: ${mission.objective}`;
-                    missionList.appendChild(missionItem);
+                missions.forEach((mission, index) => {
+                    createMissionCard(mission, index);
                 });
             })
             .catch(error => {
@@ -58,7 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(() => {
                 console.log('Mission ajoutée avec succès.');
-                loadMissions(); // Recharger les missions après l'ajout
+                const newMission = { name: missionName, person: missionPerson, objective: missionObjective };
+                missions.push(newMission); // Ajouter la mission au tableau
+                createMissionCard(newMission, missions.length - 1); // Créer une carte pour la nouvelle mission
                 newMissionForm.reset();
                 $('#missionModal').modal('hide'); // Fermer la popup
             })
@@ -77,19 +77,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction pour afficher les missions sous forme de cartes
     function displayMissions() {
-        const missionList = document.getElementById("missionList");
         missionList.innerHTML = ""; // Réinitialiser la liste
         missions.forEach((mission, index) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-                <div class="card-body">
-                    <h5 class="card-title">${mission.name}</h5>
-                </div>
-            `;
-            card.addEventListener("click", () => showMissionDetails(index));
-            missionList.appendChild(card);
+            createMissionCard(mission, index);
         });
+    }
+
+    // Fonction pour créer une carte de mission
+    function createMissionCard(mission, index) {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">${mission.name}</h5>
+            </div>
+        `;
+        card.addEventListener("click", () => showMissionDetails(index));
+        missionList.appendChild(card);
     }
 
     // Fonction pour afficher les détails d'une mission dans la modale
