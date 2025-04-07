@@ -120,10 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction pour marquer une mission comme accomplie
     function markMissionAsCompleted(mission) {
-        // Vérifiez si l'API backend utilise une route spécifique pour marquer une mission comme accomplie
+        // Utilisation de l'URL standard pour mettre à jour une mission
         fetch(`${API_BASE_URL}/missions/${mission.id}/complete`, {
-            method: 'POST', // Utilisation de POST si l'API utilise une route spécifique
+            method: 'PATCH', // Utilisation de PATCH pour mettre à jour l'état de la mission
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ completed: true }) // Envoi d'un indicateur pour marquer comme accompli
         })
             .then(response => {
                 if (!response.ok) {
