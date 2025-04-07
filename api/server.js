@@ -26,7 +26,6 @@ db.serialize(() => {
         )
     `);
 });
-
 // Récupérer toutes les missions
 app.get('/api/missions', (req, res) => {
     db.all('SELECT * FROM missions', [], (err, rows) => {

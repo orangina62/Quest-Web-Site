@@ -1,5 +1,5 @@
 // URL de l'API pour le mode production sur Vercel
-const API_BASE_URL = 'https://votre-backend-vercel.vercel.app'; // Remplacez par l'URL de votre backend déployé
+const API_BASE_URL = 'https://the-quest-board.vercel.app'; // Remplacez par l'URL correcte de votre backend
 
 document.addEventListener('DOMContentLoaded', () => {
     const newMissionForm = document.getElementById('newMissionForm');
