@@ -35,14 +35,12 @@ db.serialize(() => {
 
 // Récupérer toutes les missions
 app.get('/api/missions', (req, res) => {
-    // Retourne toutes les missions
-    res.json({ message: 'Liste des missions' });
+    res.json({ message: 'Liste des missions' }); // Exemple de réponse pour tester
 });
 
 // Ajouter une nouvelle mission
 app.post('/api/missions', (req, res) => {
-    // Ajoute une nouvelle mission
-    res.json({ message: 'Mission ajoutée' });
+    res.json({ message: 'Mission ajoutée' }); // Exemple de réponse pour tester
 });
 
 // Démarrer le serveur
