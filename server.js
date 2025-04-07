@@ -46,8 +46,16 @@ app.get('/missions', (req, res) => {
 
 // Ajouter une nouvelle mission
 app.post('/missions', (req, res) => {
-    console.log('Requête reçue pour ajouter une mission:', req.body);
+    console.log('Requête POST reçue pour ajouter une mission:', req.body);
     const { name, person, objective } = req.body;
+
+    // Vérifiez que les données sont valides
+    if (!name || !person || !objective) {
+        console.error('Données invalides reçues:', req.body);
+        res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
+        return;
+    }
+
     db.run(
         'INSERT INTO missions (name, person, objective) VALUES (?, ?, ?)',
         [name, person, objective],
@@ -57,6 +65,7 @@ app.post('/missions', (req, res) => {
                 res.status(500).json({ error: err.message });
                 return;
             }
+            console.log('Mission ajoutée avec succès, ID:', this.lastID);
             res.json({ id: this.lastID });
         }
     );

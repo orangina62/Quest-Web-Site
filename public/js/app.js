@@ -1,5 +1,5 @@
-// URL de l'API pour le mode local
-const API_BASE_URL = 'http://localhost:3000';
+// URL de l'API pour le mode production sur Vercel
+const API_BASE_URL = 'https://votre-backend-vercel.vercel.app'; // Remplacez par l'URL de votre backend déployé
 
 document.addEventListener('DOMContentLoaded', () => {
     const newMissionForm = document.getElementById('newMissionForm');
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('Erreur lors du chargement des missions:', error);
-                errorMessage.textContent = 'Impossible de charger les missions. Assurez-vous que le serveur backend est démarré sur http://localhost:3000.';
+                errorMessage.textContent = 'Impossible de charger les missions. Vérifiez que le backend est accessible.';
                 errorMessage.style.display = 'block';
             });
     }
@@ -57,13 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(() => {
+                console.log('Mission ajoutée avec succès.');
                 loadMissions(); // Recharger les missions après l'ajout
                 newMissionForm.reset();
                 $('#missionModal').modal('hide'); // Fermer la popup
             })
             .catch(error => {
                 console.error('Erreur lors de l\'ajout de la mission:', error);
-                errorMessage.textContent = 'Impossible d\'ajouter la mission. Assurez-vous que le serveur backend est démarré sur http://localhost:3000.';
+                errorMessage.textContent = `Impossible d'ajouter la mission : ${error.message}`;
                 errorMessage.style.display = 'block';
             });
     });
