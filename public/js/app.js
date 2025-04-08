@@ -115,10 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ completed: true }) // Envoi d'un indicateur pour marquer comme accompli
         })
             .then(response => {
+                console.log(`Réponse du serveur :`, response); // Log pour vérifier la réponse
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                console.log(`Mission "${mission.name}" marquée comme accomplie.`);
+                return response.json();
+            })
+            .then(data => {
+                console.log(`Mission mise à jour avec succès :`, data); // Log pour vérifier les données mises à jour
                 loadMissions(); // Recharger les missions après mise à jour
             })
             .catch(error => {
