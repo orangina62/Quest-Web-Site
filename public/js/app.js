@@ -1,9 +1,6 @@
 // URL de l'API pour le mode production sur Vercel
 const API_BASE_URL = 'https://the-quest-board.vercel.app/api'; // Assurez-vous que cette URL correspond à votre backend déployé
 
-// Déclaration de la variable missions comme tableau global
-let missions = [];
-
 document.addEventListener('DOMContentLoaded', () => {
     const newMissionForm = document.getElementById('newMissionForm');
     const missionList = document.getElementById('missionList');
@@ -19,10 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
-                missions = Array.isArray(data) ? data : []; // S'assurer que missions est un tableau
                 missionList.innerHTML = ''; // Réinitialise la liste
-                missions.forEach((mission, index) => {
-                    createMissionCard(mission, index);
+                data.forEach((mission) => {
+                    createMissionCard(mission);
                 });
             })
             .catch(error => {
@@ -58,12 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return response.json();
             })
-            .then(newMission => {
+            .then(() => {
                 console.log('Mission ajoutée avec succès.');
-                missions.push(newMission); // Ajouter la mission au tableau
-                createMissionCard(newMission, missions.length - 1); // Créer une carte pour la nouvelle mission
                 newMissionForm.reset();
                 $('#missionModal').modal('hide'); // Fermer la popup
+                loadMissions(); // Recharger les missions depuis l'API
             })
             .catch(error => {
                 console.error('Erreur lors de l\'ajout de la mission:', error);
@@ -72,16 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // Fonction pour afficher les missions sous forme de cartes
-    function displayMissions() {
-        missionList.innerHTML = ""; // Réinitialiser la liste
-        missions.forEach((mission, index) => {
-            createMissionCard(mission, index);
-        });
-    }
-
     // Fonction pour créer une carte de mission
-    function createMissionCard(mission, index) {
+    function createMissionCard(mission) {
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
@@ -120,11 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction pour marquer une mission comme accomplie
     function markMissionAsCompleted(mission) {
-        // Utilisation de l'URL standard pour mettre à jour une mission
-        fetch(`${API_BASE_URL}/missions/${mission.id}/complete`, {
-            method: 'PATCH', // Utilisation de PATCH pour mettre à jour l'état de la mission
+        fetch(`${API_BASE_URL}/missions/${mission.id}`, {
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completed: true }) // Envoi d'un indicateur pour marquer comme accompli
+            body: JSON.stringify({ completed: true })
         })
             .then(response => {
                 if (!response.ok) {
@@ -156,9 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(`Impossible de supprimer la mission : ${error.message}`);
             });
     }
-
-    // S'assurer que les missions sont affichées après le chargement de la page
-    displayMissions();
 
     // Charger les missions au démarrage
     loadMissions();
