@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
+                console.log(data); // Log pour vérifier les données des missions
                 missionList.innerHTML = ''; // Réinitialise la liste
                 data.forEach((mission) => {
                     createMissionCard(mission);
@@ -107,10 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction pour marquer une mission comme accomplie
     function markMissionAsCompleted(mission) {
+        console.log(`Tentative de marquer la mission comme accomplie :`, mission); // Log pour vérifier la mission
         fetch(`${API_BASE_URL}/missions/${mission.id}`, {
-            method: 'PATCH',
+            method: 'PATCH', // Utilisation de PATCH pour mettre à jour l'état de la mission
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completed: true })
+            body: JSON.stringify({ completed: true }) // Envoi d'un indicateur pour marquer comme accompli
         })
             .then(response => {
                 if (!response.ok) {
